@@ -26,9 +26,13 @@ import { SearchTopicsByTagHandler } from "@src/confluent/tools/handlers/search/s
 import { SearchTopicsByNameHandler } from "@src/confluent/tools/handlers/search/search-topics-by-name-handler.js";
 import { ToolName } from "@src/confluent/tools/tool-name.js";
 import { GetTopicConfigHandler } from "@src/confluent/tools/handlers/kafka/get-topic-config.js";
+import { GetTopicMetricsHandler } from "@src/confluent/tools/handlers/metrics/get-topic-metrics-handler.js";
+import { GetPrincipalMetricsHandler } from "@src/confluent/tools/handlers/metrics/get-principal-metrics-handler.js";
+import { GetConfluentCloudMetricsHandler } from "@src/confluent/tools/handlers/metrics/get-confluent-cloud-metrics-handler.js";
+import { GetMetricsDescriptorsHandler } from "@src/confluent/tools/handlers/metrics/get-metrics-descriptors-handler.js";
 
 export class ToolFactory {
-  private static handlers: Map<ToolName, ToolHandler> = new Map([
+  private static handlers = new Map<ToolName, ToolHandler>([
     [ToolName.LIST_TOPICS, new ListTopicsHandler()],
     [ToolName.CREATE_TOPICS, new CreateTopicsHandler()],
     [ToolName.DELETE_TOPICS, new DeleteTopicsHandler()],
@@ -55,6 +59,13 @@ export class ToolFactory {
     [ToolName.LIST_SCHEMAS, new ListSchemasHandler()],
     [ToolName.CONSUME_MESSAGES, new ConsumeKafkaMessagesHandler()],
     [ToolName.GET_TOPIC_CONFIG, new GetTopicConfigHandler()],
+    [ToolName.GET_TOPIC_METRICS, new GetTopicMetricsHandler()],
+    [ToolName.GET_PRINCIPAL_METRICS, new GetPrincipalMetricsHandler()],
+    [
+      ToolName.GET_CONFLUENT_CLOUD_METRICS,
+      new GetConfluentCloudMetricsHandler(),
+    ],
+    [ToolName.GET_METRICS_DESCRIPTORS, new GetMetricsDescriptorsHandler()],
   ]);
 
   static createToolHandler(toolName: ToolName): ToolHandler {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Environment variables that are required for tools to be enabled/disabled
+// Schema for required environment variables
 const envSchema = z.object({
   HTTP_PORT: z.coerce
     .number()
@@ -8,6 +8,7 @@ const envSchema = z.object({
     .positive()
     .describe("Port to use for HTTP transport")
     .default(3000),
+
   HTTP_HOST: z
     .string()
     .describe("Host to bind for HTTP transport")
@@ -17,75 +18,66 @@ const envSchema = z.object({
     .describe(
       "List of Kafka broker addresses in the format host1:port1,host2:port2 used to establish initial connection to the Kafka cluster",
     )
-    .trim()
-    .optional(),
+    .trim(),
   KAFKA_API_KEY: z
     .string()
     .describe(
       "Authentication credential (username) required to establish secure connection with the Kafka cluster",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   KAFKA_API_SECRET: z
     .string()
     .describe(
       "Authentication credential (password) paired with KAFKA_API_KEY for secure Kafka cluster access",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   FLINK_API_KEY: z
     .string()
     .describe(
       "Authentication key for accessing Confluent Cloud's Flink services, including compute pools and SQL statement management",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   FLINK_API_SECRET: z
     .string()
     .describe(
       "Secret token paired with FLINK_API_KEY for authenticated access to Confluent Cloud's Flink services",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   CONFLUENT_CLOUD_API_KEY: z
     .string()
     .describe(
       "Master API key for Confluent Cloud platform administration, enabling management of resources across your organization",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   CONFLUENT_CLOUD_API_SECRET: z
     .string()
     .describe(
       "Master API secret paired with CONFLUENT_CLOUD_API_KEY for comprehensive Confluent Cloud platform administration",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   SCHEMA_REGISTRY_API_KEY: z
     .string()
     .describe(
       "Authentication key for accessing Schema Registry services to manage and validate data schemas",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
   SCHEMA_REGISTRY_API_SECRET: z
     .string()
     .describe(
       "Authentication secret paired with SCHEMA_REGISTRY_API_KEY for secure Schema Registry access",
     )
     .trim()
-    .min(1)
-    .optional(),
+    .min(1),
 });
 
-// Environment variables that are optional for tools / could be provided at runtime
+// Schema for optional configuration from file
 const configSchema = z
   .object({
     FLINK_ENV_ID: z
@@ -150,6 +142,14 @@ const configSchema = z
       .trim()
       .url()
       .default("https://api.confluent.cloud"),
+    CONFLUENT_CLOUD_TELEMETRY_ENDPOINT: z
+      .string()
+      .describe(
+        "Base URL for Confluent Cloud's Telemetry API services used for metrics and monitoring",
+      )
+      .trim()
+      .url()
+      .default("https://api.telemetry.confluent.cloud"),
     SCHEMA_REGISTRY_ENDPOINT: z
       .string()
       .describe(

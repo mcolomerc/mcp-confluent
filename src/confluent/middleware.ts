@@ -2,10 +2,11 @@ import { logger } from "@src/logger.js";
 import { Middleware } from "openapi-fetch";
 
 export interface ConfluentEndpoints {
-  cloud?: string;
-  flink?: string;
-  schemaRegistry?: string;
-  kafka?: string;
+  cloud: string;
+  telemetry: string;
+  flink: string;
+  schemaRegistry: string;
+  kafka: string;
 }
 
 export interface ConfluentAuth {
